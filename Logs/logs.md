@@ -54,3 +54,29 @@ Project description is getting there
 ### Comments and questions for supervisor
 - What exactly is in the project plan (Gant chart?, learning objectives?)
 ### Work done at end of day
+- made 2 research questions
+
+## Date:17/02 - 2025
+### Work to do today
+- Make a plan for how to finish project plan this week
+- opt. begin work on gant chart
+- opt. figure out 1 more research question
+### General notes
+SMiles is more parsing than grammar<br>
+explore diffrences where there is no 1-1 translation due to lack of knowledge <br>
+there can be many smiles strings for 1 molecule
+### Comments and questions for supervisor
+
+### Work done at end of day
+- Made extra research question
+- Had good metting with supervisor
+
+## Date: 19/02 - 2025
+### Work to do today
+- Define learning objectives. 
+- Find template for gantt chart
+### General notes
+I can write in english
+### Comments and questions for supervisor
+
+### Work done at end of day
