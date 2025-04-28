@@ -4,3 +4,5 @@ Bachelor/Lib/
 Bachelor/include
 win_env/
 Bachelor_env/
+HPC_logs/
+Code/Modules/__pycache__/
