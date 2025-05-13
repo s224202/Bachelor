@@ -1,4 +1,4 @@
-from transformers import AutoTokenizer, EncoderDecoderModel, BertConfig, EncoderDecoderConfig
+from transformers import AutoTokenizer, EncoderDecoderModel, BertConfig, EncoderDecoderConfig, BertGenerationConfig, BertGenerationEncoder, BertGenerationDecoder
 class gly2can():
     """
     A class to represent a glycan translation model.
@@ -9,14 +9,16 @@ class gly2can():
         if load_model:
             self.model = EncoderDecoderModel.from_pretrained(f"./Models/{orig_nomen}_{target_nomen}_fine_tuned")
         else:
-            config_encoder = BertConfig()
-            config_decoder = BertConfig(is_decoder=True)
-            config = EncoderDecoderConfig.from_encoder_decoder_configs(config_encoder, config_decoder)
-            self.model = EncoderDecoderModel(config=config,)
-            self.model.config.decoder_start_token_id = 234
+            config = BertGenerationConfig.from_pretrained("google-bert/bert-large-uncased")
+            encoder = BertGenerationEncoder(config)
+            decoder_config = BertConfig.from_pretrained("google-bert/bert-large-uncased")
+            decoder_config.is_decoder = True
+            decoder_config.add_cross_attention = True
+            decoder = BertGenerationDecoder(decoder_config)
+            self.model = EncoderDecoderModel(encoder=encoder, decoder=decoder)
+            self.model.config.decoder_start_token_id = 270
+            self.model.config.eos_token_id = 270
             self.model.config.pad_token_id = 0
-            self.model.config.eos_token_id = 234
-            self.model.config.bos_token_id = 234
 
 def glycan_tokenizer(glycan_sequences):
     base_tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-large-uncased")
@@ -31,6 +33,9 @@ def glycan_tokenizer(glycan_sequences):
     glycan_tok.pad_token = '[PAD]'
     glycan_tok.bos_token = '[Glycan]'
     glycan_tok.eos_token = '[Glycan]'
+    print(glycan_tok.pad_token_id)
+    print(glycan_tok.bos_token_id)
+    print(glycan_tok.eos_token_id)
     #print(glycan_tok.tokenize(glycan_sequences[2]))
     return glycan_tok
 
