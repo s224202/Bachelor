@@ -3,18 +3,20 @@ class gly2can():
     """
     A class to represent a glycan translation model.
     """
-    def __init__(self, orig_nomen:str, target_nomen:str):
+    def __init__(self, orig_nomen:str, target_nomen:str, load_model:bool=False):
         self.orig_nomen = orig_nomen
         self.target_nomen = target_nomen
-        config_encoder = BertConfig()
-        config_decoder = BertConfig(is_decoder=True)
-        config = EncoderDecoderConfig.from_encoder_decoder_configs(config_encoder, config_decoder)
-        self.model = EncoderDecoderModel(config=config)
-        self.model.config.decoder_start_token_id = 234
-        self.model.config.pad_token_id = 0
-        self.model.config.eos_token_id = 234
-        self.model.config.bos_token_id = 234
-        
+        if load_model:
+            self.model = EncoderDecoderModel.from_pretrained(f"./Models/{orig_nomen}_{target_nomen}_fine_tuned")
+        else:
+            config_encoder = BertConfig()
+            config_decoder = BertConfig(is_decoder=True)
+            config = EncoderDecoderConfig.from_encoder_decoder_configs(config_encoder, config_decoder)
+            self.model = EncoderDecoderModel(config=config,)
+            self.model.config.decoder_start_token_id = 234
+            self.model.config.pad_token_id = 0
+            self.model.config.eos_token_id = 234
+            self.model.config.bos_token_id = 234
 
 def glycan_tokenizer(glycan_sequences):
     base_tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-large-uncased")
@@ -25,6 +27,7 @@ def glycan_tokenizer(glycan_sequences):
     glycan_tok.add_special_tokens({
         'additional_special_tokens': ['[Glycan]', '[Glycan]']
     })
+    glycan_tok.model_max_length = 512
     glycan_tok.pad_token = '[PAD]'
     glycan_tok.bos_token = '[Glycan]'
     glycan_tok.eos_token = '[Glycan]'
