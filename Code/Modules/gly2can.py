@@ -9,9 +9,9 @@ class gly2can():
         if load_model:
             self.model = EncoderDecoderModel.from_pretrained(f"./Models/{orig_nomen}_{target_nomen}_fine_tuned")
         else:
-            config = BertGenerationConfig.from_pretrained("google-bert/bert-large-uncased")
+            config = BertGenerationConfig.from_pretrained("google-bert/bert-base-uncased")
             encoder = BertGenerationEncoder(config)
-            decoder_config = BertConfig.from_pretrained("google-bert/bert-large-uncased")
+            decoder_config = BertConfig.from_pretrained("google-bert/bert-base-uncased")
             decoder_config.is_decoder = True
             decoder_config.add_cross_attention = True
             decoder = BertGenerationDecoder(decoder_config)
@@ -21,7 +21,7 @@ class gly2can():
             self.model.config.pad_token_id = 0
 
 def glycan_tokenizer(glycan_sequences):
-    base_tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-large-uncased")
+    base_tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased")
     ## quick sanity check prints to make sure this pretraining actually helps
     #print(base_tokenizer.tokenize(glycan_sequences[2]))
     glycan_tok = base_tokenizer.train_new_from_iterator(get_training_corpus(glycan_sequences=glycan_sequences),30522)

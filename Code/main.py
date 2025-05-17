@@ -7,7 +7,7 @@ import pandas as pd
 import torch
 import sklearn 
 import itertools
-def build_model(orig_nomen, target_nomen):
+def build_model(orig_nomen, target_nomen, epochs = 6):
     # Load data
     data = pd.read_csv('./Data/glycan_sequences_full_covers.csv')
     ## limit to 100 sequences for testing
@@ -23,7 +23,7 @@ def build_model(orig_nomen, target_nomen):
         training_data=data.iloc[training_idx],
         tokenizer=tokenizer,
         save_model=False,
-        epochs=1,
+        epochs=epochs,
         batch_size=20,
         learning_rate=5e-5
     )
