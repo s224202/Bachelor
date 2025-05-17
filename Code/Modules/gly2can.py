@@ -9,16 +9,14 @@ class gly2can():
         if load_model:
             self.model = EncoderDecoderModel.from_pretrained(f"./Models/{orig_nomen}_{target_nomen}_fine_tuned")
         else:
-            config = BertGenerationConfig.from_pretrained("google-bert/bert-base-uncased")
-            encoder = BertGenerationEncoder(config)
-            decoder_config = BertConfig.from_pretrained("google-bert/bert-base-uncased")
-            decoder_config.is_decoder = True
-            decoder_config.add_cross_attention = True
-            decoder = BertGenerationDecoder(decoder_config)
-            self.model = EncoderDecoderModel(encoder=encoder, decoder=decoder)
-            self.model.config.decoder_start_token_id = 270
-            self.model.config.eos_token_id = 270
+            config_encoder = BertConfig()
+            config_decoder = BertConfig(is_decoder=True)
+            config = EncoderDecoderConfig.from_encoder_decoder_configs(config_encoder, config_decoder)
+            self.model = EncoderDecoderModel(config=config,)
+            self.model.config.decoder_start_token_id = 234
             self.model.config.pad_token_id = 0
+            self.model.config.eos_token_id = 234
+            self.model.config.bos_token_id = 234
 
 def glycan_tokenizer(glycan_sequences):
     base_tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased")
