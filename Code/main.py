@@ -1,5 +1,4 @@
 import numpy as np
-import sklearn.model_selection
 from Modules.gly2can import gly2can, glycan_tokenizer
 from Modules.fine_tuning import fine_tune_model
 from Modules.accuracies import strict_equality, partial_match

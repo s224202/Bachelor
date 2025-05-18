@@ -10,7 +10,8 @@ class gly2can():
             self.model = EncoderDecoderModel.from_pretrained(f"./Models/{orig_nomen}_{target_nomen}_fine_tuned")
         else:
             config_encoder = BertConfig()
-            config_decoder = BertConfig(is_decoder=True)
+            ## Add cross attention was not present during training originally because im dumb, but has been added now, in case anyone wants to use my code.
+            config_decoder = BertConfig(is_decoder=True, add_cross_attention=True)
             config = EncoderDecoderConfig.from_encoder_decoder_configs(config_encoder, config_decoder)
             self.model = EncoderDecoderModel(config=config,)
             self.model.config.decoder_start_token_id = 234
